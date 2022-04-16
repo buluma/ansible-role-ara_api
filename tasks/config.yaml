@@ -1,5 +1,5 @@
 ---
-- name: Verify if a configuration file exists
+- name: verify if a configuration file exists
   stat:
     path: "{{ ara_api_settings }}"
   register: settings_stat
@@ -16,7 +16,7 @@
       no_log: "{{ ara_api_secure_logging }}"
       register: settings_contents
 
-    - name: Recover existing secret key
+    - name: recover existing secret key
       vars:
         config: "{{ settings_contents.stdout | from_yaml }}"
       set_fact:
@@ -30,19 +30,19 @@
     - ara_api_secret_key is none
     - not settings_stat.stat.exists
   block:
-    - name: Generate a random secret key
+    - name: generate a random secret key
       environment:
         PATH: "{{ path_with_virtualenv }}"
       command: python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(length=50))"
       no_log: "{{ ara_api_secure_logging }}"
       register: generated_key
 
-    - name: Set ara_api_secret_key
+    - name: set ara_api_secret_key
       set_fact:
         ara_api_secret_key: "{{ generated_key.stdout }}"
       no_log: "{{ ara_api_secure_logging }}"
 
-- name: Validate distributed sqlite configuration
+- name: validate distributed sqlite configuration
   assert:
     that:
       - "ara_api_database_engine == 'ara.server.db.backends.distributed_sqlite'"
@@ -52,7 +52,7 @@
   when: ara_api_distributed_sqlite
 
 # Put configuration in a format we can write to a file
-- name: Reconcile configuration
+- name: reconcile configuration
   vars:
     reconciled_configuration:
       ALLOWED_HOSTS: "{{ ara_api_allowed_hosts }}"
@@ -84,7 +84,7 @@
     ara_api_configuration: "{'{{ ara_api_env }}': {{ reconciled_configuration }} }"
   no_log: "{{ ara_api_secure_logging }}"
 
-- name: Set up the ARA API configuration file
+- name: set up the ARA API configuration file
   copy:
     content: |
       ---
@@ -96,7 +96,7 @@
     - restart ara-api
   no_log: "{{ ara_api_secure_logging }}"
 
-- name: Set up ARA API cronjobs
+- name: set up ARA API cronjobs
   cron:
     name: "{{ job['name'] }}"
     special_time: "{{ job['special_time'] | default(omit) }}"

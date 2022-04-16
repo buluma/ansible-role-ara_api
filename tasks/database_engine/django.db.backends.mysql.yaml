@@ -1,34 +1,34 @@
 ---
-- name: Retrieve list of missing required packages for mysql
+- name: retrieve list of missing required packages for mysql
   set_fact:
     _mysql_missing_packages: "{{ ara_api_mysql_packages | difference(ansible_facts.packages.keys()) }}"
 
 # Only attempt to elevate privileges if there are any missing packages
 - when: _mysql_missing_packages | length > 0
   block:
-    - name: Install required packages
+    - name: install required packages
       become: true
       package:
         name: "{{ ara_api_mysql_packages }}"
         state: present
   rescue:
-    - name: Fail due to missing packages
+    - name: fail due to missing packages
       fail:
         msg: |
-          Failed to elevate privileges and install missing required packages.
+          failed to elevate privileges and install missing required packages.
           Install the following packages before running this role again:
           {{ _mysql_missing_packages | join(' ') }}
 
 # Django requires mysqclient when using mysql
 # https://docs.djangoproject.com/en/2.2/ref/databases/#mysql-db-api-drivers
-- name: Ensure mysqlclient is installed
+- name: ensure mysqlclient is installed
   pip:
     name: mysqlclient
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
-- name: Run SQL migrations
+- name: run SQL migrations
   environment:
     ARA_SETTINGS: "{{ ara_api_settings }}"
     PATH: "{{ path_with_virtualenv }}"
@@ -38,4 +38,4 @@
   retries: 3
   delay: 5
   until: _ara_sql_migrations is succeeded
-  changed_when: "'No migrations to apply' not in _ara_sql_migrations.stdout"
+  changed_when: "'no migrations to apply' not in _ara_sql_migrations.stdout"
