@@ -1,0 +1,8 @@
+---
+#
+# Ansible managed
+#
+repository:
+  description: Install and configure ara api on your system.
+  homepage: https://buluma.github.io/
+  topics: ansiblerecordsansible, ara, arareportsansible, cloud, development, monitoring, reporting, ansible, molecule, tox, playbook, hacktoberfest

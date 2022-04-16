@@ -1,90 +1,91 @@
-# Ansible role: ara_api
+# [ara_api](#ara_api)
 
-![ara_api](https://raw.githubusercontent.com/ansible-community/ara-collection/master/doc/source/_static/ansible-role-ara-api.png)
+Install and configure ara api on your system.
 
-This Ansible role provides a framework for installing one or many instances of the
-[ARA](https://github.com/ansible-community/ara) API Server in a variety of
-opinionated deployment topologies.
+|GitHub|GitLab|Quality|Downloads|Version|Issues|Pull Requests|
+|------|------|-------|---------|-------|------|-------------|
+|[![github](https://github.com/buluma/ansible-role-ara_api/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-ara_api/actions)|[![gitlab](https://gitlab.com/buluma/ansible-role-ara_api/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-ara_api)|[![quality](https://img.shields.io/ansible/quality/)](https://galaxy.ansible.com/buluma/ara_api)|[![downloads](https://img.shields.io/ansible/role/d/)](https://galaxy.ansible.com/buluma/ara_api)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/pulls/)|
 
-It is currently tested and supported against Ubuntu 18.04, Fedora 30 and CentOS 8.
+## [Example Playbook](#example-playbook)
 
-## Role Variables
-
-See [defaults/main.yaml](https://github.com/ansible-community/ara-collection/blob/master/roles/ara_api/defaults/main.yaml).
-
-## TL;DR
-
-Playbook that runs the role with defaults:
-
+This example is taken from `molecule/default/converge.yml` and is tested on each push, pull request and release.
 ```yaml
-- name: Install ARA with default settings and no persistent API server
+---
+- name: Converge
   hosts: all
+  become: yes
   gather_facts: yes
+
   roles:
-    - ara_api
+    - role: buluma.ara_api
 ```
 
-What the role ends up doing by default:
-
-- Installs required packages (``git``, ``virtualenv``, etc.) if superuser privileges are available
-- Stores everything in the home directory of the user in ``~/.ara``
-- Retrieves ARA from source
-- Installs ARA in a virtualenv
-- Generates a random secret key if none are already configured or provided
-- Sets up API configuration in ``~/.ara/server/settings.yaml``
-- Runs the API SQL migrations (``ara-manage migrate``)
-
-## About deployment topologies
-
-This Ansible role is designed to support different opinionated topologies that
-can be selected with role variables.
-
-For example, the following role variables are used to provide the topology from
-the ``TL;DR`` above:
-
-- ``ara_api_install_method: source``
-- ``ara_api_wsgi_server: null``
-- ``ara_api_database_engine: django.db.backends.sqlite3``
-- ``ara_api_web_server: null``
-
-The intent is that as the role gains support for other install methods,
-wsgi servers, database engines or web servers, it will be possible to
-mix and match according to preference or requirements.
-
-Perhaps ARA could be installed from pypi and run with gunicorn, nginx and mysql.
-Or maybe it could be installed from distribution packages and set up to run
-with apache, mod_wsgi and postgresql.
-Or any combination of any of those.
-
-## Example playbooks
-
-Install ARA and set up the API to be served by a persistent gunicorn service:
-
+The machine needs to be prepared. In CI this is done using `molecule/default/prepare.yml`:
 ```yaml
-- name: Install ARA and set up the API to be served by gunicorn
+---
+- name: Prepare
   hosts: all
-  gather_facts: yes
-  vars:
-    ara_api_wsgi_server: gunicorn
+  become: yes
+  gather_facts: no
+
   roles:
-    - ara_api
+    - role: buluma.bootstrap
 ```
 
-Install ARA and set up the API to be served by nginx in front of gunicorn:
 
-```yaml
-# Requires superuser privileges to set up nginx and the ara-api service
-# The API will be reachable at http://api.ara.example.org
-- name: Install ARA and set up the API to be served by nginx in front of gunicorn
-  hosts: all
-  gather_facts: yes
-  vars:
-    ara_api_frontend_server: nginx
-    ara_api_wsgi_server: gunicorn
-    ara_api_fqdn: api.ara.example.org
-    ara_api_allowed_hosts:
-      - api.ara.example.org
-    ara_api_frontend_vhost: custom_vhost.conf.j2
-  roles:
-    - ara_api
-```
+
+## [Requirements](#requirements)
+
+- pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-ara_api/blob/main/requirements.txt).
+
+
+## [Context](#context)
+
+This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://buluma.co.ke/) for further information.
+
+Here is an overview of related roles:
+
+![dependencies](https://raw.githubusercontent.com/buluma/ansible-role-ara_api/png/requirements.png "Dependencies")
+
+## [Compatibility](#compatibility)
+
+This role has been tested on these [container images](https://hub.docker.com/u/buluma):
+
+|container|tags|
+|---------|----|
+|el|8|
+|debian|all|
+|fedora|all|
+|ubuntu|bionic|
+
+The minimum version of Ansible required is 2.10, tests have been done to:
+
+- The previous version.
+- The current version.
+- The development version.
+
+## [Exceptions](#exceptions)
+
+Some roles can't run on a specific distribution or version. Here are some exceptions.
+
+| variation                 | reason                 |
+|---------------------------|------------------------|
+| alpine | Could not find a version that satisfies the requirement Django>=2.1.5 |
+| centos:7 | No matching distribution found for Django>=2.1.5 |
+| amazonlinux:1 | No package matching 'python3-pip' |
+| amazonlinux | No module named pkg_resources |
+
+
+If you find issues, please register them in [GitHub](https://github.com/buluma/ansible-role-ara_api/issues)
+
+## [Changelog](#changelog)
+
+[Role History](https://github.com/buluma/ansible-role-ara_api/blob/master/CHANGELOG.md)
+
+## [License](#license)
+
+Apache-2.0
+
+## [Author Information](#author-information)
+
+[Michael Buluma](https://buluma.github.io/)
