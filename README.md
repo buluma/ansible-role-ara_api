@@ -4,7 +4,7 @@ Install and configure ara api on your system.
 
 |GitHub|GitLab|Quality|Downloads|Version|Issues|Pull Requests|
 |------|------|-------|---------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-ara_api/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-ara_api/actions)|[![gitlab](https://gitlab.com/buluma/ansible-role-ara_api/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-ara_api)|[![quality](https://img.shields.io/ansible/quality/)](https://galaxy.ansible.com/buluma/ara_api)|[![downloads](https://img.shields.io/ansible/role/d/)](https://galaxy.ansible.com/buluma/ara_api)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/pulls/)|
+|[![github](https://github.com/buluma/ansible-role-ara_api/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-ara_api/actions)|[![gitlab](https://gitlab.com/buluma/ansible-role-ara_api/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-ara_api)|[![quality](https://img.shields.io/ansible/quality/58814)](https://galaxy.ansible.com/buluma/ara_api)|[![downloads](https://img.shields.io/ansible/role/d/58814)](https://galaxy.ansible.com/buluma/ara_api)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-ara_api.svg)](https://github.com/buluma/ansible-role-ara_api/pulls/)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -38,6 +38,13 @@ The machine needs to be prepared. In CI this is done using `molecule/default/pre
 
 - pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-ara_api/blob/main/requirements.txt).
 
+## [Status of used roles](#status-of-requirements)
+
+The following roles are used to prepare a system. You can prepare your system in another way.
+
+| Requirement | GitHub | GitLab |
+|-------------|--------|--------|
+|[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Build Status GitHub](https://github.com/buluma/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions)|[![Build Status GitLab ](https://gitlab.com/buluma/ansible-role-bootstrap/badges/main/pipeline.svg)](https://gitlab.com/buluma/ansible-role-bootstrap)|
 
 ## [Context](#context)
 
@@ -53,7 +60,7 @@ This role has been tested on these [container images](https://hub.docker.com/u/b
 
 |container|tags|
 |---------|----|
-|el|8|
+|el|all|
 |debian|all|
 |fedora|all|
 |ubuntu|bionic|

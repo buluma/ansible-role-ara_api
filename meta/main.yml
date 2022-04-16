@@ -11,7 +11,7 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 8
+        - all
     - name: Debian
       versions:
         - all
@@ -23,9 +23,10 @@ galaxy_info:
         - bionic
 
   galaxy_tags:
-    - ansiblerecordsansible
+    - ansible
+    - records
     - ara
-    - arareportsansible
+    - reports
     - cloud
     - development
     - monitoring

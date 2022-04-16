@@ -37,6 +37,8 @@ jobs:
       matrix:
         config:
           - image: "enterpriselinux"
+            tag: "7"
+          - image: "enterpriselinux"
             tag: "latest"
           - image: "debian-systemd"
             tag: "latest"
