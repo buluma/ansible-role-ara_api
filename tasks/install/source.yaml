@@ -9,8 +9,9 @@
   pip:
     name: "{{ ara_api_source_checkout }}[server]"
     state: present
-    virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
-    virtualenv_command: /usr/bin/python3 -m venv
+    # virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
+    # virtualenv_command: /usr/bin/python3 -m venv
+    # TODO: Check why this is failing
 
 - name: install python-passlib for managing authentication credentials
   pip:
