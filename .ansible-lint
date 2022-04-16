@@ -12,6 +12,6 @@ exclude_paths:
   - ./.tox
   - ./.cache
 
-skip_list: # TODO: Check why this is failing
+skip_list:  # TODO: Check why this is failing
   - no-changed-when
   - fqcn-builtins
