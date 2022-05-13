@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/buluma/ansible-role-ara_api/compare/v0.1.0...HEAD)
 
+**Closed issues:**
+
+- add to tracker [\#1](https://github.com/buluma/ansible-role-ara_api/issues/1)
+
 **Merged pull requests:**
 
 - Bump buluma/gh-action-auto-merge-dependabot-updates from 1.0.4 to 1.0.5 [\#3](https://github.com/buluma/ansible-role-ara_api/pull/3) ([dependabot[bot]](https://github.com/apps/dependabot))
