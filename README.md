@@ -1,4 +1,4 @@
-# [ara_api](#ara_api)
+# [Ansible role ara_api](#ara_api)
 
 Install and configure ara api on your system.
 
