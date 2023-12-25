@@ -17,7 +17,7 @@
   ansible.builtin.set_fact:
     _gunicorn_path: "{{ _gunicorn_cmd.stdout }}"
 
-- name: Transfer
+- name: gunicorn | Transfer
   when: ansible_facts['os_family'] == "RedHat"
   block:
     - name: gunicorn | Transfer gunicorn selinux type enforcement file
@@ -34,6 +34,7 @@
       command: "semodule_package -o {{ ara_api_root_dir }}/ara-gunicorn.pp -m {{ ara_api_root_dir }}/ara-gunicorn.mod"
 
 - name: Install selinux module
+  become: true
   block:
     # TODO: Only install the selinux module if it has changed
     - name: gunicorn | Install selinux policy package
@@ -57,4 +58,3 @@
         enabled: true
         daemon_reload: true
       register: ara_api_service_enabled
-  become: true
