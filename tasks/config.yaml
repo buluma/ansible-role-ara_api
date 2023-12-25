@@ -29,8 +29,8 @@
 # configuration file.
 - name: config | Generate secret
   when:
-      - ara_api_secret_key is none
-      - not settings_stat.stat.exists
+    - ara_api_secret_key is none
+    - not settings_stat.stat.exists
   block:
     - name: config | Generate a random secret key
       ansible.builtin.environment:
