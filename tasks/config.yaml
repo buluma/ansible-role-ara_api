@@ -20,16 +20,14 @@
       ansible.builtin.set_fact:
         ara_api_secret_key: "{{ config[ara_api_env]['SECRET_KEY'] }}"
       no_log: "{{ ara_api_secure_logging }}"
-  - when:
-      - ara_api_secret_key is none
-      - settings_stat.stat.exists
+  when:
+    - ara_api_secret_key is none
+    - settings_stat.stat.exists
 
 # If no secret key has been provided and this is the first time we are
 # running, generate a new random secret key that will be persisted in the
 # configuration file.
-- when:
-    - ara_api_secret_key is none
-    - not settings_stat.stat.exists
+- name: Generate secret
   block:
     - name: config | Generate a random secret key
       environment:
@@ -42,6 +40,9 @@
       ansible.builtin.set_fact:
         ara_api_secret_key: "{{ generated_key.stdout }}"
       no_log: "{{ ara_api_secure_logging }}"
+  when:
+      - ara_api_secret_key is none
+      - not settings_stat.stat.exists
 
 - name: config | Validate distributed sqlite configuration
   ansible.builtin.assert:
