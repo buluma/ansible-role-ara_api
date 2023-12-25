@@ -12,7 +12,7 @@
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
     # ansible_python_interpreter: python3
-    executable: pip3.3
+    # executable: pip3.3
     # TODO: Check why this is failing
 
 - name: source | Install python-passlib for managing authentication credentials
