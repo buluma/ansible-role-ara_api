@@ -5,13 +5,13 @@
 
 # Only attempt to elevate privileges if there are any missing packages
 - name: django.db.backends.mysql | Elavate privileges
+  when: _mysql_missing_packages | length > 0
   block:
     - name: django.db.backends.mysql | Install required packages
       become: true
       ansible.builtin.package:
         name: "{{ ara_api_mysql_packages }}"
         state: present
-  when: _mysql_missing_packages | length > 0
   rescue:
     - name: django.db.backends.mysql | Fail due to missing packages
       ansible.builtin.fail:
