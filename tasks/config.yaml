@@ -1,5 +1,5 @@
 ---
-- name: Verify if a configuration file exists
+- name: config | Verify if a configuration file exists
   ansible.builtin.stat:
     path: "{{ ara_api_settings }}"
   register: settings_stat
@@ -10,13 +10,13 @@
     - ara_api_secret_key is none
     - settings_stat.stat.exists
   block:
-    - name: Read the existing configuration file
+    - name: config | Read the existing configuration file
       command: cat "{{ ara_api_settings }}"
       changed_when: false
       no_log: "{{ ara_api_secure_logging }}"
       register: settings_contents
 
-    - name: Recover existing secret key
+    - name: config | Recover existing secret key
       vars:
         config: "{{ settings_contents.stdout | from_yaml }}"
       ansible.builtin.set_fact:
@@ -30,19 +30,19 @@
     - ara_api_secret_key is none
     - not settings_stat.stat.exists
   block:
-    - name: Generate a random secret key
+    - name: config | Generate a random secret key
       environment:
         PATH: "{{ path_with_virtualenv }}"
       command: python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(length=50))"
       no_log: "{{ ara_api_secure_logging }}"
       register: generated_key
 
-    - name: Set ara_api_secret_key
+    - name: config | Set ara_api_secret_key
       ansible.builtin.set_fact:
         ara_api_secret_key: "{{ generated_key.stdout }}"
       no_log: "{{ ara_api_secure_logging }}"
 
-- name: Validate distributed sqlite configuration
+- name: config | Validate distributed sqlite configuration
   ansible.builtin.assert:
     that:
       - "ara_api_database_engine == 'ara.server.db.backends.distributed_sqlite'"
@@ -52,7 +52,7 @@
   when: ara_api_distributed_sqlite
 
 # Put configuration in a format we can write to a file
-- name: Reconcile configuration
+- name: config | Reconcile configuration
   vars:
     reconciled_configuration:
       ALLOWED_HOSTS: "{{ ara_api_allowed_hosts }}"
@@ -84,7 +84,7 @@
     ara_api_configuration: "{'{{ ara_api_env }}': {{ reconciled_configuration }} }"
   no_log: "{{ ara_api_secure_logging }}"
 
-- name: Set up the ARA API configuration file
+- name: config | Set up the ARA API configuration file
   ansible.builtin.copy:
     content: |
       ---
@@ -96,7 +96,7 @@
     - Restart ara-api
   no_log: "{{ ara_api_secure_logging }}"
 
-- name: Set up ARA API cronjobs
+- name: config | Set up ARA API cronjobs
   ansible.builtin.cron:
     name: "{{ job['name'] }}"
     special_time: "{{ job['special_time'] | default(omit) }}"
