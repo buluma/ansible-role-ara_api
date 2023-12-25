@@ -33,7 +33,7 @@
     - name: gunicorn | Compile ara-gunicorn selinux policy package
       command: "semodule_package -o {{ ara_api_root_dir }}/ara-gunicorn.pp -m {{ ara_api_root_dir }}/ara-gunicorn.mod"
 
-- name: Install selinux module
+- name: gunicorn | Install selinux module
   become: true
   block:
     # TODO: Only install the selinux module if it has changed
