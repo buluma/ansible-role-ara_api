@@ -1,5 +1,5 @@
 ---
-- name: Retrieve list of missing required packages for mysql
+- name: django.db.backends.mysql | Retrieve list of missing required packages for mysql
   ansible.builtin.set_fact:
     _mysql_missing_packages: "{{ ara_api_mysql_packages | difference(ansible_facts.packages.keys()) }}"
 
@@ -21,14 +21,14 @@
 
 # Django requires mysqclient when using mysql
 # https://docs.djangoproject.com/en/2.2/ref/databases/#mysql-db-api-drivers
-- name: Ensure mysqlclient is installed
+- name: django.db.backends.mysql | Ensure mysqlclient is installed
   ansible.builtin.pip:
     name: mysqlclient
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
-- name: Run SQL migrations
+- name: django.db.backends.mysql | Run SQL migrations
   environment:
     ARA_SETTINGS: "{{ ara_api_settings }}"
     PATH: "{{ path_with_virtualenv }}"
