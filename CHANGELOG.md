@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Update buluma/todo-to-issue-action@v1.0.1 @buluma [\#11](https://github.com/buluma/ansible-role-ara_api/issues/11)
 - add to tracker [\#1](https://github.com/buluma/ansible-role-ara_api/issues/1)
 
 **Merged pull requests:**
