@@ -5,4 +5,4 @@
 repository:
   description: Install and configure ara api on your system.
   homepage: https://buluma.github.io/
-  topics: ansible, records, ara, reports, cloud, development, monitoring, reporting, ansible, molecule, tox, playbook
+  topics: ansible, records, ara, reports, cloud, development, monitoring, reporting, ansible, molecule, playbook
