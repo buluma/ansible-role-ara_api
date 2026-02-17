@@ -1,19 +1,19 @@
 ---
-- name: django.db.backends.postgresql | Retrieve list of missing required packages for postgresql
+- name: Django.db.backends.postgresql | Retrieve list of missing required packages for postgresql
   ansible.builtin.set_fact:
     _postgresql_missing_packages: "{{ ara_api_postgresql_packages | difference(ansible_facts.packages.keys()) }}"
 
 # Only attempt to elevate privileges if there are any missing packages
-- name: django.db.backends.postgresql | Elavate privileges
+- name: Django.db.backends.postgresql | Elavate privileges
   when: _postgresql_missing_packages | length > 0
   block:
-    - name: django.db.backends.postgresql | Install required packages
+    - name: Django.db.backends.postgresql | Install required packages
       become: true
       ansible.builtin.package:
         name: "{{ ara_api_postgresql_packages }}"
         state: present
   rescue:
-    - name: django.db.backends.postgresql | Fail due to missing packages
+    - name: Django.db.backends.postgresql | Fail due to missing packages
       ansible.builtin.fail:
         msg: |
           Failed to elevate privileges and install missing required packages.
@@ -22,7 +22,7 @@
 
 # Django requires psycopg2 when using postgresql
 # https://docs.djangoproject.com/en/2.2/ref/databases/#postgresql-notes
-- name: django.db.backends.postgresql | Ensure psycopg2 is installed
+- name: Django.db.backends.postgresql | Ensure psycopg2 is installed
   ansible.builtin.pip:
     # Pin psycopg2 until we upgrade to django 3.2 LTS
     # https://github.com/ansible-community/ara/issues/320
@@ -31,11 +31,11 @@
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
-- name: django.db.backends.postgresql | Run SQL migrations
+- name: Django.db.backends.postgresql | Run SQL migrations
   environment:
     ARA_SETTINGS: "{{ ara_api_settings }}"
     PATH: "{{ path_with_virtualenv }}"
-  command: ara-manage migrate
+  ansible.builtin.command: ara-manage migrate
   run_once: true
   register: _ara_sql_migrations
   retries: 3

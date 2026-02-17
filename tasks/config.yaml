@@ -12,7 +12,7 @@
     - settings_stat.stat.exists
   block:
     - name: config | Read the existing configuration file
-      command: cat "{{ ara_api_settings }}"
+      ansible.builtin.command: cat "{{ ara_api_settings }}"
       changed_when: false
       no_log: "{{ ara_api_secure_logging }}"
       register: settings_contents
@@ -33,10 +33,11 @@
     - not settings_stat.stat.exists
   block:
     - name: config | Generate a random secret key
-      ansible.builtin.environment:
+      ansible.builtin.command: python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(length=50))"
+      environment:
         PATH: "{{ path_with_virtualenv }}"
-      command: python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(length=50))"
       no_log: "{{ ara_api_secure_logging }}"
+      changed_when: true
       register: generated_key
 
     - name: config | Set ara_api_secret_key
@@ -55,7 +56,7 @@
 
 # Put configuration in a format we can write to a file
 - name: config | Reconcile configuration
-  ansible.builtin.vars:
+  vars:
     reconciled_configuration:
       ALLOWED_HOSTS: "{{ ara_api_allowed_hosts }}"
       BASE_DIR: "{{ ara_api_base_dir }}"
@@ -93,7 +94,7 @@
       # Managed by the ara Ansible role
       {{ ara_api_configuration | to_nice_yaml(indent=2) }}
     dest: "{{ ara_api_settings }}"
-    mode: 0640
+    mode: "0640"
   notify:
     - Restart ara-api
   no_log: "{{ ara_api_secure_logging }}"

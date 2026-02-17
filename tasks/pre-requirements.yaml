@@ -11,7 +11,7 @@
 # The ansible_python_version fact might end up retrieving the version of
 # python2 so we need to explicitely get the version of python 3 available.
 - name: pre-requirements | Validate availability of Python 3.5
-  command: /usr/bin/python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'
+  ansible.builtin.command: /usr/bin/python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'
   changed_when: false
   failed_when: false
   register: python_version
@@ -27,16 +27,16 @@
   ansible.builtin.file:
     path: "{{ ara_api_root_dir }}"
     state: directory
-    mode: 0755
+    mode: "0755"
 
 - name: pre-requirements | Ensure ara_api_base_dir exists
   ansible.builtin.file:
     path: "{{ ara_api_base_dir }}"
     state: directory
-    mode: 0750
+    mode: "0750"
 
 - name: pre-requirements | Ensure ara_api_log_dir exists
   ansible.builtin.file:
     path: "{{ ara_api_log_dir }}"
     state: directory
-    mode: 0750
+    mode: "0750"

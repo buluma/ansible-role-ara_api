@@ -1,11 +1,11 @@
 ---
-- name: distribution | Validate if the distribution is supported
+- name: Distribution | Validate if the distribution is supported
   ansible.builtin.fail:
     msg: |
       {{ ansible_facts['distribution'] }} does not support installation from distribution packages yet.
   when: ara_distribution_packages | length == 0
 
-- name: distribution | Install ara from distribution packages
+- name: Distribution | Install ara from distribution packages
   become: true
   ansible.builtin.package:
     name: "{{ ara_distribution_packages }}"
@@ -13,7 +13,7 @@
 
 # TODO: consider putting the name of the package into a variable if distributions
 # other than fedora become supported.
-- name: distribution | Install python-passlib for managing authentication credentials
+- name: Distribution | Install python-passlib for managing authentication credentials
   become: true
   ansible.builtin.package:
     name: python3-passlib
@@ -21,6 +21,6 @@
   when: ara_api_external_auth
 
 # This lets us use "path_with_virtualenv" without conditions everywhere
-- name: distribution | Don't prefix the virtualenv bin directory to PATH
+- name: Distribution | Don't prefix the virtualenv bin directory to PATH
   ansible.builtin.set_fact:
     path_with_virtualenv: "{{ ansible_facts['env']['PATH'] }}"
