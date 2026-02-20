@@ -1,7 +1,6 @@
 ---
 # ARA has not been packaged for CentOS or RHEL yet
 ara_distribution_packages: []
-
 # EL8 doesn't install a python3 interpreter by default.
 # System packages rely on /usr/libexec/platform-python and Ansible will use it
 # but we want to use the non-system one. Install it if it's missing.
