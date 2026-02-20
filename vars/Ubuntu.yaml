@@ -1,7 +1,6 @@
 ---
 # ARA has not been packaged for Ubuntu yet
 ara_distribution_packages: []
-
 ara_api_required_packages:
   - git
   - python3-venv
