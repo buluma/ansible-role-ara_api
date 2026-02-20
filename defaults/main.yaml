@@ -137,14 +137,14 @@ ara_api_logging:
   disable_existing_loggers: false
   formatters:
     normal:
-      format: '%(asctime)s %(levelname)s %(name)s: %(message)s'
+      format: "%(asctime)s %(levelname)s %(name)s: %(message)s"
   handlers:
     console:
       class: logging.handlers.TimedRotatingFileHandler
       formatter: normal
       level: "{{ ara_api_log_level }}"
       filename: "{{ ara_api_log_dir }}/server.log"
-      when: 'midnight'
+      when: "midnight"
       interval: 1
       backupCount: 30
   loggers:
@@ -231,8 +231,8 @@ ara_api_configure_cron: false
 # When configuring cronjobs, only provide the arguments for the ara CLI utility
 ara_api_cleanup_crons:
   - name: ara_api expire running playbooks
-    arguments: 'expire --server http://localhost:8000 --client http --confirm --hours 24'
-    special_time: 'daily'  # you can also use other time arguments from the cron module
+    arguments: "expire --server http://localhost:8000 --client http --confirm --hours 24"
+    special_time: "daily" # you can also use other time arguments from the cron module
   - name: ara_api prune old reports
-    arguments: 'playbook prune --server http://localhost:8000 --client http --confirm --days 30'
-    special_time: 'daily'
+    arguments: "playbook prune --server http://localhost:8000 --client http --confirm --days 30"
+    special_time: "daily"

@@ -111,5 +111,5 @@
     job: "{{ ara_api_venv_path }}/bin/ara {{ job['arguments'] }} >/dev/null 2>&1"
   loop: "{{ ara_api_cleanup_crons }}"
   loop_control:
-    loop_var: 'job'
+    loop_var: "job"
   when: ara_api_configure_cron
