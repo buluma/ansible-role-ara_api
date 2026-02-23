@@ -1,10 +1,9 @@
----
-- name: Prepare
-  hosts: all
-  become: true
-  gather_facts: false
+  - name: Prepare
+    hosts: all
+    become: true
+    gather_facts: false
 
-  roles:
-    - role: buluma.bootstrap
-    - role: buluma.git
-    - role: buluma.setuptools
+    roles:
+      - role: buluma.bootstrap
+      - role: buluma.git
+      - role: buluma.setuptools

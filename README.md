@@ -11,30 +11,28 @@ Install and configure ara api on your system.
 This example is taken from [`molecule/default/converge.yml`](https://github.com/buluma/ansible-role-ara_api/blob/master/molecule/default/converge.yml) and is tested on each push, pull request and release.
 
 ```yaml
----
-- name: Converge
-  hosts: all
-  become: true
-  gather_facts: true
+  - name: Converge
+    hosts: all
+    become: true
+    gather_facts: true
 
-  roles:
-    - role: buluma.ara_api
-      ara_api_secure_logging: false
+    roles:
+      - role: buluma.ara_api
+        ara_api_secure_logging: false
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/buluma/ansible-role-ara_api/blob/master/molecule/default/prepare.yml):
 
 ```yaml
----
-- name: Prepare
-  hosts: all
-  become: true
-  gather_facts: false
+  - name: Prepare
+    hosts: all
+    become: true
+    gather_facts: false
 
-  roles:
-    - role: buluma.bootstrap
-    - role: buluma.git
-    - role: buluma.setuptools
+    roles:
+      - role: buluma.bootstrap
+      - role: buluma.git
+      - role: buluma.setuptools
 ```
 
 Also see a [full explanation and example](https://buluma.github.io/how-to-use-these-roles.html) on how to use these roles.
