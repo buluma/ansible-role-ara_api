@@ -5,5 +5,5 @@
   gather_facts: true
 
   roles:
-  - role: buluma.ara_api
-    ara_api_secure_logging: false
+    - role: buluma.ara_api
+      ara_api_secure_logging: false

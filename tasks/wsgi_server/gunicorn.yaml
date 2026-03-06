@@ -1,50 +1,50 @@
 ---
-- name: Gunicorn | Install gunicorn
+- name: wsgi_server | gunicorn | Install gunicorn
   ansible.builtin.pip:
     name: gunicorn
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
-- name: Gunicorn | Get path to gunicorn
+- name: wsgi_server | gunicorn | Get path to gunicorn
   ansible.builtin.command: which gunicorn
   changed_when: false
   register: _gunicorn_cmd
   environment:
     PATH: "{{ path_with_virtualenv }}"
 
-- name: Gunicorn | Set path to gunicorn
+- name: wsgi_server | gunicorn | Set path to gunicorn
   ansible.builtin.set_fact:
     _gunicorn_path: "{{ _gunicorn_cmd.stdout }}"
 
-- name: Gunicorn | Transfer
+- name: wsgi_server | gunicorn | Transfer
   when: ansible_facts['os_family'] == "RedHat"
   block:
-    - name: Gunicorn | Transfer gunicorn selinux type enforcement file
+    - name: wsgi_server | gunicorn | Transfer gunicorn selinux type enforcement file
       ansible.builtin.copy:
         src: ara-gunicorn.te
         dest: "{{ ara_api_root_dir }}/ara-gunicorn.te"
         mode: "0444"
 
     # TODO: Only compile a new module and policy package when necessary
-    - name: Gunicorn | Compile ara-gunicorn selinux module
+    - name: wsgi_server | gunicorn | Compile ara-gunicorn selinux module
       ansible.builtin.command: "checkmodule -M -m -o {{ ara_api_root_dir }}/ara-gunicorn.mod {{ ara_api_root_dir }}/ara-gunicorn.te"
       changed_when: false
 
-    - name: Gunicorn | Compile ara-gunicorn selinux policy package
+    - name: wsgi_server | gunicorn | Compile ara-gunicorn selinux policy package
       ansible.builtin.command: "semodule_package -o {{ ara_api_root_dir }}/ara-gunicorn.pp -m {{ ara_api_root_dir }}/ara-gunicorn.mod"
       changed_when: false
 
-- name: Gunicorn | Install selinux module
+- name: wsgi_server | gunicorn | Install selinux module
   become: true
   block:
     # TODO: Only install the selinux module if it has changed
-    - name: Gunicorn | Install selinux policy package
+    - name: wsgi_server | gunicorn | Install selinux policy package
       ansible.builtin.command: "semodule -i {{ ara_api_root_dir }}/ara-gunicorn.pp"
       changed_when: false
       when: ansible_facts['os_family'] == "RedHat"
 
-    - name: Gunicorn | Set up systemd unit file for gunicorn to run the ARA API
+    - name: wsgi_server | gunicorn | Set up systemd unit file for gunicorn to run the ARA API
       ansible.builtin.template:
         src: ara-api.service.j2
         dest: /etc/systemd/system/ara-api.service
@@ -54,7 +54,7 @@
       notify:
         - Restart ara-api
 
-    - name: Gunicorn | Enable and start ara-api with gunicorn
+    - name: wsgi_server | gunicorn | Enable and start ara-api with gunicorn
       ansible.builtin.service:
         name: ara-api
         state: started

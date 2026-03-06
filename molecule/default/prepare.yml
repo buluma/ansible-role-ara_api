@@ -5,6 +5,6 @@
   gather_facts: false
 
   roles:
-  - role: buluma.bootstrap
-  - role: buluma.git
-  - role: buluma.setuptools
+    - role: buluma.bootstrap
+    - role: buluma.git
+    - role: buluma.setuptools
