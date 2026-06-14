@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-ara_api/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-ara_api/compare/v26.6.0...HEAD)
+
+**Closed issues:**
+
+- Check why this is failing [\#2](https://github.com/buluma/ansible-role-ara_api/issues/2)
+
 ## [v26.6.0](https://github.com/buluma/ansible-role-ara_api/tree/v26.6.0) (2026-06-14)
 
 [Full Changelog](https://github.com/buluma/ansible-role-ara_api/compare/v0.1.0...v26.6.0)
