@@ -1,7 +1,7 @@
 ---
 - name: database_engine | django.db.backends.postgresql | Retrieve list of missing required packages for postgresql
   ansible.builtin.set_fact:
-    _postgresql_missing_packages: "{{ ara_api_postgresql_packages | difference(ansible_facts.packages.keys()) }}"
+    _postgresql_missing_packages: "{{ ara_api_postgresql_packages | difference(ansible_facts['packages'].keys()) }}"
 
 # Only attempt to elevate privileges if there are any missing packages
 - name: database_engine | django.db.backends.postgresql | Elavate privileges

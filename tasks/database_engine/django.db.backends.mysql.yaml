@@ -1,7 +1,7 @@
 ---
 - name: database_engine | django.db.backends.mysql | Retrieve list of missing required packages for mysql
   ansible.builtin.set_fact:
-    _mysql_missing_packages: "{{ ara_api_mysql_packages | difference(ansible_facts.packages.keys()) }}"
+    _mysql_missing_packages: "{{ ara_api_mysql_packages | difference(ansible_facts['packages'].keys()) }}"
 
 # Only attempt to elevate privileges if there are any missing packages
 - name: database_engine | django.db.backends.mysql | Elavate privileges

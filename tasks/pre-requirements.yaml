@@ -14,7 +14,7 @@
     state: present
   when: ara_api_missing_packages | length > 0
 
-# The ansible_facts.python_version fact might end up retrieving the version of
+# The ansible_facts['python_version'] fact might end up retrieving the version of
 # python2 so we need to explicitely get the version of python 3 available.
 - name: pre-requirements | Validate availability of Python 3.5
   ansible.builtin.command: /usr/bin/python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))'
