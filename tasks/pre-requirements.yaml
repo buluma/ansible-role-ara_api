@@ -8,6 +8,12 @@
   ansible.builtin.set_fact:
     ara_api_missing_packages: "{{ ara_api_required_packages | difference(ansible_facts['packages'].keys()) }}"
 
+- name: pre-requirements | Install missing required packages
+  ansible.builtin.package:
+    name: "{{ ara_api_missing_packages }}"
+    state: present
+  when: ara_api_missing_packages | length > 0
+
 # The ansible_facts.python_version fact might end up retrieving the version of
 # python2 so we need to explicitely get the version of python 3 available.
 - name: pre-requirements | Validate availability of Python 3.5
