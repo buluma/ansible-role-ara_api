@@ -9,7 +9,7 @@
 ara_api_secure_logging: true
 
 # Root directory where every file for the ARA installation are located
-ara_api_root_dir: "{{ ansible_user_dir }}/.ara"
+ara_api_root_dir: "{{ ansible_facts.user_dir }}/.ara"
 
 # Directory where logs are written to
 ara_api_log_dir: "{{ ara_api_root_dir }}/logs"
