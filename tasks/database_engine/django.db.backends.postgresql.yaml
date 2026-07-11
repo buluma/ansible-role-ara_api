@@ -1,37 +1,34 @@
 ---
-- name: database_engine | django.db.backends.postgresql | Retrieve list of missing required packages for postgresql
+- name: django.db.backends.postgresql | Retrieve list of missing required packages for postgresql
   ansible.builtin.set_fact:
     _postgresql_missing_packages: "{{ ara_api_postgresql_packages | difference(ansible_facts['packages'].keys()) }}"
 
-# Only attempt to elevate privileges if there are any missing packages
-- name: database_engine | django.db.backends.postgresql | Elavate privileges
+- name: django.db.backends.postgresql | Elevate privileges
   when: _postgresql_missing_packages | length > 0
   block:
-    - name: database_engine | django.db.backends.postgresql | Install required packages
+    - name: django.db.backends.postgresql | Install required packages
       become: true
       ansible.builtin.package:
         name: "{{ ara_api_postgresql_packages }}"
         state: present
   rescue:
-    - name: database_engine | django.db.backends.postgresql | Fail due to missing packages
+    - name: django.db.backends.postgresql | Fail due to missing packages
       ansible.builtin.fail:
         msg: |
-          Failed to elevate privileges and install missing required packages.
-          Install the following packages before running this role again
+          failed to elevate privileges and install missing required packages.
+
+          Install the following packages before running this role again:
+
           {{ _postgresql_missing_packages | join(' ') }}
 
-# Django requires psycopg2 when using postgresql
-# https://docs.djangoproject.com/en/2.2/ref/databases/#postgresql-notes
-- name: database_engine | django.db.backends.postgresql | Ensure psycopg2 is installed
+- name: django.db.backends.postgresql | Ensure psycopg2 is installed
   ansible.builtin.pip:
-    # Pin psycopg2 until we upgrade to django 3.2 LTS
-    # https://github.com/ansible-community/ara/issues/320
-    name: psycopg2<2.9
+    name: psycopg2
     state: present
     virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
-- name: database_engine | django.db.backends.postgresql | Run SQL migrations
+- name: django.db.backends.postgresql | Run SQL migrations
   environment:
     ARA_SETTINGS: "{{ ara_api_settings }}"
     PATH: "{{ path_with_virtualenv }}"
@@ -41,4 +38,4 @@
   retries: 3
   delay: 5
   until: _ara_sql_migrations is succeeded
-  changed_when: "'no migrations to apply' not in _ara_sql_migrations.stdout"
+  changed_when: '"no migrations to apply" not in _ara_sql_migrations.stdout'
