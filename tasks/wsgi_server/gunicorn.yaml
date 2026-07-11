@@ -3,7 +3,7 @@
   ansible.builtin.pip:
     name: gunicorn
     state: present
-    virtualenv: '{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}'
+    virtualenv: "{{ ara_api_venv | bool | ternary(ara_api_venv_path, omit) }}"
     virtualenv_command: /usr/bin/python3 -m venv
 
 - name: gunicorn | Get path to gunicorn
@@ -11,11 +11,11 @@
   changed_when: false
   register: _gunicorn_cmd
   environment:
-    PATH: '{{ path_with_virtualenv }}'
+    PATH: "{{ path_with_virtualenv }}"
 
 - name: gunicorn | Set path to gunicorn
   ansible.builtin.set_fact:
-    _gunicorn_path: '{{ _gunicorn_cmd.stdout }}'
+    _gunicorn_path: "{{ _gunicorn_cmd.stdout }}"
 
 - name: gunicorn | Transfer
   when: ansible_facts['os_family'] == "RedHat"
@@ -23,8 +23,8 @@
     - name: gunicorn | Transfer gunicorn selinux type enforcement file
       ansible.builtin.copy:
         src: ara-gunicorn.te
-        dest: '{{ ara_api_root_dir }}/ara-gunicorn.te'
-        mode: '0444'
+        dest: "{{ ara_api_root_dir }}/ara-gunicorn.te"
+        mode: "0444"
 
     - name: gunicorn | Compile ara-gunicorn selinux module
       ansible.builtin.command: checkmodule -M -m -o {{ ara_api_root_dir }}/ara-gunicorn.mod {{ ara_api_root_dir }}/ara-gunicorn.te
@@ -48,7 +48,7 @@
         dest: /etc/systemd/system/ara-api.service
         owner: root
         group: root
-        mode: '0644'
+        mode: "0644"
       notify:
         - Restart ara-api
 
