@@ -4,8 +4,9 @@
 platforms:
   - name: EL
     versions:
+      # Excludes 9: ships Python 3.9, but ara[server] requires
+      # django>=5.2,<5.3, which needs Python >=3.10.
       - "10"
-      - "9"
   - name: Debian
     versions:
       # Excludes 11: ships Python 3.9, but ara[server] requires
