@@ -1,11 +1,11 @@
 ---
-- name: django.db.backends.sqlite3 | Ensure the database directory exists
+- name: database_engine | django.db.backends.sqlite3 | Ensure the database directory exists
   ansible.builtin.file:
     path: "{{ ara_api_sqlite_db_path | dirname }}"
     state: directory
     mode: "0755"
 
-- name: django.db.backends.sqlite3 | Run SQL migrations
+- name: database_engine | django.db.backends.sqlite3 | Run SQL migrations
   environment:
     ARA_SETTINGS: "{{ ara_api_settings }}"
     PATH: "{{ path_with_virtualenv }}"
