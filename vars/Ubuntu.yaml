@@ -6,7 +6,6 @@ ara_api_required_packages:
   - python3-venv
   - python3-setuptools
   - python3-packaging
-  - python-pkg-resources
   - python3-pkg-resources
 
 ara_api_postgresql_packages:
