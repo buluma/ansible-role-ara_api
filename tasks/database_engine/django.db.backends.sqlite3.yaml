@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ ara_api_database_name | dirname }}"
     state: directory
-    mode: "0755"
+    mode: "0750"
 
 - name: database_engine | django.db.backends.sqlite3 | Run SQL migrations
   environment:
@@ -15,4 +15,4 @@
   retries: 3
   delay: 5
   until: _ara_sql_migrations is succeeded
-  changed_when: '"no migrations to apply" not in _ara_sql_migrations.stdout'
+  changed_when: '"No migrations to apply" not in _ara_sql_migrations.stdout'
