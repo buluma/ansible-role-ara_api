@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-ara_api/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-ara_api/compare/v26.6.2...HEAD)
+
+**Merged pull requests:**
+
+- chore\(deps\): bump ansible/ansible-lint from 26.6.0 to 26.8.0 [\#21](https://github.com/buluma/ansible-role-ara_api/pull/21) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v26.6.2](https://github.com/buluma/ansible-role-ara_api/tree/v26.6.2) (2026-07-22)
 
 [Full Changelog](https://github.com/buluma/ansible-role-ara_api/compare/v26.6.1...v26.6.2)
